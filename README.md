@@ -1,6 +1,6 @@
-# Task Management Backend
+# Task Management Backend API
 
-A backend system for managing tasks, users, organizations, projects, comments, attachments, and activity history.
+A robust and scalable Node.js backend server designed to manage workflow operations, team collaboration, and task allocation within organizations. It features an automated MySQL database synchronization system powered by Sequelize ORM.
 
 ## Tech Stack
 
@@ -9,15 +9,12 @@ A backend system for managing tasks, users, organizations, projects, comments, a
 * Sequelize ORM
 * MySQL
 
-## Project Features
+## Key Features & Modules
 
-* User management
-* Organization management
-* Project management
-* Task management
-* Comments system
-* Attachments handling
-* Activity history tracking
+* **User & Auth Management:** Handles user profiles, roles, and authorization permissions.
+* **Workspace & Project Organization:** Enables creation of organizations, project assignment, and member management.
+* **Task & Workflow Tracking:** Manages tasks, dynamic status updates, attachments, and user comments.
+* **Audit & Activity Logs:** Keeps track of historical activity and system events across projects.
 
 ## Database
 
