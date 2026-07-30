@@ -1,4 +1,4 @@
-# Task Management Backend API
+# Task Management Backend
 
 A robust and scalable Node.js backend server designed to manage workflow operations, team collaboration, and task allocation within organizations. It features an automated MySQL database synchronization system powered by Sequelize ORM.
 
