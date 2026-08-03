@@ -1,14 +1,27 @@
 const express = require('express');
 const router = express.Router();
 const orgController = require('../controllers/orgController');
-const upload = require('../middleware/upload');
+const verifyToken = require('../middleware/authMiddleware');
 
-// Organization Endpoints
-router.post('/', upload.single('logo'), orgController.createOrganization);
-router.put('/:id', upload.single('logo'), orgController.updateOrganization);
-router.delete('/:id', orgController.deleteOrganization);
+// Assign User to Organization
+router.post('/:id/members', verifyToken, (req, res, next) => {
+  // #swagger.tags = ['Organization Members']
+  // #swagger.summary = 'Assign a user to an organization'
+  orgController.assignMember(req, res, next);
+});
 
-// Assign User to Org
-router.post('/:id/members', orgController.assignUserToOrg);
+// Remove User from Organization
+router.delete('/:id/members/:userId', verifyToken, (req, res, next) => {
+  // #swagger.tags = ['Organization Members']
+  // #swagger.summary = 'Remove a user from an organization'
+  orgController.removeMember(req, res, next);
+});
+
+// Transfer Organization Ownership
+router.put('/:id/transfer-owner', verifyToken, (req, res, next) => {
+  // #swagger.tags = ['Organization']
+  // #swagger.summary = 'Transfer organization ownership to another user'
+  orgController.transferOwnership(req, res, next);
+});
 
 module.exports = router;

@@ -1,92 +1,80 @@
-const { Organization, User, OrganizationMember } = require('../models');
+const { Organization, OrganizationMember, User } = require('../models');
 
-// 1. Create Organization (With Logo & Theme)
-exports.createOrganization = async (req, res) => {
+// 1. Assign User to Organization
+exports.assignMember = async (req, res) => {
   try {
-    const { Name, Email, ContactNo, Theme } = req.body;
-    const Logo = req.file ? req.file.path : null;
-
-    const org = await Organization.create({
-      Name,
-      Email,
-      ContactNo,
-      Theme: Theme || '#ffffff',
-      Logo
-    });
-
-    res.status(201).json({ message: 'Organization created successfully', organization: org });
-  } catch (error) {
-    res.status(500).json({ message: 'Server error', error: error.message });
-  }
-};
-
-// 2. Update Organization (Details, Logo & Theme)
-exports.updateOrganization = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { Name, Email, ContactNo, Theme } = req.body;
-
-    const org = await Organization.findByPk(id);
-    if (!org) {
-      return res.status(404).json({ message: 'Organization not found' });
-    }
-
-    if (Name) org.Name = Name;
-    if (Email) org.Email = Email;
-    if (ContactNo) org.ContactNo = ContactNo;
-    if (Theme) org.Theme = Theme;
-    if (req.file) org.Logo = req.file.path;
-
-    await org.save();
-
-    res.status(200).json({ message: 'Organization updated successfully', organization: org });
-  } catch (error) {
-    res.status(500).json({ message: 'Server error', error: error.message });
-  }
-};
-
-// 3. Delete Organization
-exports.deleteOrganization = async (req, res) => {
-  try {
-    const { id } = req.params;
-
-    const org = await Organization.findByPk(id);
-    if (!org) {
-      return res.status(404).json({ message: 'Organization not found' });
-    }
-
-    await org.destroy();
-    res.status(200).json({ message: 'Organization deleted successfully' });
-  } catch (error) {
-    res.status(500).json({ message: 'Server error', error: error.message });
-  }
-};
-
-// 4. Assign User to Organization
-exports.assignUserToOrg = async (req, res) => {
-  try {
-    const { id } = req.params; // OrganizationID
+    const { id } = req.params; // Organization ID
     const { UserID, RoleID } = req.body;
 
-    const org = await Organization.findByPk(id);
-    if (!org) {
-      return res.status(404).json({ message: 'Organization not found' });
+    // Check if membership already exists
+    const existingMember = await OrganizationMember.findOne({
+      where: { OrganizationID: id, UserID }
+    });
+
+    if (existingMember) {
+      return res.status(400).json({ message: 'User is already a member of this organization.' });
     }
 
-    const user = await User.findByPk(UserID);
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
-    }
-
-    // Assign via OrganizationMember junction table
-    const member = await OrganizationMember.create({
+    const newMember = await OrganizationMember.create({
       OrganizationID: id,
       UserID,
       RoleID: RoleID || null
     });
 
-    res.status(201).json({ message: 'User assigned to Organization successfully', member });
+    return res.status(201).json({
+      message: 'User assigned to organization successfully.',
+      data: newMember
+    });
   } catch (error) {
-    res.status(500).json({ message: 'Server error', error: error.message });
+    return res.status(500).json({ message: 'Error assigning user to organization', error: error.message });
+  }
+};
+
+// 2. Remove User from Organization
+exports.removeMember = async (req, res) => {
+  try {
+    const { id, userId } = req.params;
+
+    const deletedCount = await OrganizationMember.destroy({
+      where: { OrganizationID: id, UserID: userId }
+    });
+
+    if (!deletedCount) {
+      return res.status(404).json({ message: 'Member not found in this organization.' });
+    }
+
+    return res.status(200).json({ message: 'User removed from organization successfully.' });
+  } catch (error) {
+    return res.status(500).json({ message: 'Error removing user from organization', error: error.message });
+  }
+};
+
+// 3. Transfer Organization Ownership
+exports.transferOwnership = async (req, res) => {
+  try {
+    const { id } = req.params; // Organization ID
+    const { newOwnerId } = req.body;
+
+    const org = await Organization.findByPk(id);
+    if (!org) {
+      return res.status(404).json({ message: 'Organization not found.' });
+    }
+
+    // Verify new owner exists
+    const newOwner = await User.findByPk(newOwnerId);
+    if (!newOwner) {
+      return res.status(404).json({ message: 'New owner user not found.' });
+    }
+
+    // Update CreatedBy / Owner field
+    org.CreatedBy = newOwnerId;
+    await org.save();
+
+    return res.status(200).json({
+      message: 'Organization ownership transferred successfully.',
+      data: org
+    });
+  } catch (error) {
+    return res.status(500).json({ message: 'Error transferring ownership', error: error.message });
   }
 };

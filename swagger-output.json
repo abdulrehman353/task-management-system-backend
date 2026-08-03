@@ -1,0 +1,297 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Task Management System API",
+    "description": "REST API Documentation for Task Management System",
+    "version": "1.0.0"
+  },
+  "host": "localhost:5000",
+  "basePath": "/",
+  "schemes": ["http", "https"],
+  "securityDefinitions": {
+    "bearerAuth": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
+    }
+  },
+  "tags": [
+    { "name": "Users", "description": "User Management APIs" },
+    { "name": "Tasks", "description": "Task Management APIs" },
+    { "name": "Projects", "description": "Project Management APIs" },
+    { "name": "Organization", "description": "Organization Management APIs" },
+    { "name": "Organization Members", "description": "Organization Member Management APIs" },
+    { "name": "Authentication", "description": "User Authentication APIs" },
+    { "name": "Attachments", "description": "Attachment Management APIs" },
+    { "name": "Activity History", "description": "Activity History Management APIs" },
+    { "name": "Role", "description": "Role Management APIs" },
+    { "name": "Permissions", "description": "Permission Management APIs" }
+  ],
+  "paths": {
+    "/api/auth/login": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Login user",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "Email": { "type": "string", "example": "admin@example.com" },
+                "Password": { "type": "string", "example": "password123" }
+              }
+            }
+          }
+        ],
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
+    "/api/auth/signup": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Register a new user",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "Username": { "type": "string", "example": "johndoe" },
+                "Email": { "type": "string", "example": "john@example.com" },
+                "Password": { "type": "string", "example": "password123" }
+              }
+            }
+          }
+        ],
+        "responses": { "201": { "description": "Created" } }
+      }
+    },
+    "/api/users": {
+      "get": { "tags": ["Users"], "summary": "Get all users", "responses": { "200": { "description": "OK" } } },
+      "post": {
+        "tags": ["Users"],
+        "summary": "Create a new user",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "Username": { "type": "string" },
+                "Email": { "type": "string" }
+              }
+            }
+          }
+        ],
+        "responses": { "201": { "description": "Created" } }
+      }
+    },
+    "/api/users/{id}": {
+      "get": { "tags": ["Users"], "summary": "Get user by ID", "parameters": [{ "name": "id", "in": "path", "required": true, "type": "integer" }], "responses": { "200": { "description": "OK" } } },
+      "put": { "tags": ["Users"], "summary": "Update user", "parameters": [{ "name": "id", "in": "path", "required": true, "type": "integer" }], "responses": { "200": { "description": "OK" } } },
+      "delete": { "tags": ["Users"], "summary": "Delete user", "parameters": [{ "name": "id", "in": "path", "required": true, "type": "integer" }], "responses": { "200": { "description": "OK" } } }
+    },
+    "/api/tasks": {
+      "get": { "tags": ["Tasks"], "summary": "Get all tasks", "responses": { "200": { "description": "OK" } } },
+      "post": {
+        "tags": ["Tasks"],
+        "summary": "Create a new task",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "Title": { "type": "string" },
+                "Description": { "type": "string" }
+              }
+            }
+          }
+        ],
+        "responses": { "201": { "description": "Created" } }
+      }
+    },
+    "/api/tasks/{id}": {
+      "get": { "tags": ["Tasks"], "summary": "Get task by ID", "parameters": [{ "name": "id", "in": "path", "required": true, "type": "integer" }], "responses": { "200": { "description": "OK" } } },
+      "put": { "tags": ["Tasks"], "summary": "Update task", "parameters": [{ "name": "id", "in": "path", "required": true, "type": "integer" }], "responses": { "200": { "description": "OK" } } },
+      "delete": { "tags": ["Tasks"], "summary": "Delete task", "parameters": [{ "name": "id", "in": "path", "required": true, "type": "integer" }], "responses": { "200": { "description": "OK" } } }
+    },
+    "/api/projects": {
+      "get": { "tags": ["Projects"], "summary": "Get all projects", "responses": { "200": { "description": "OK" } } },
+      "post": {
+        "tags": ["Projects"],
+        "summary": "Create a new project",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "ProjectName": { "type": "string" }
+              }
+            }
+          }
+        ],
+        "responses": { "201": { "description": "Created" } }
+      }
+    },
+    "/api/projects/{id}": {
+      "get": { "tags": ["Projects"], "summary": "Get project by ID", "parameters": [{ "name": "id", "in": "path", "required": true, "type": "integer" }], "responses": { "200": { "description": "OK" } } },
+      "put": { "tags": ["Projects"], "summary": "Update project", "parameters": [{ "name": "id", "in": "path", "required": true, "type": "integer" }], "responses": { "200": { "description": "OK" } } },
+      "delete": { "tags": ["Projects"], "summary": "Delete project", "parameters": [{ "name": "id", "in": "path", "required": true, "type": "integer" }], "responses": { "200": { "description": "OK" } } }
+    },
+    "/api/organizations": {
+      "get": { "tags": ["Organization"], "summary": "Get all organizations", "responses": { "200": { "description": "OK" } } },
+      "post": {
+        "tags": ["Organization"],
+        "summary": "Create a new organization",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "OrganizationName": { "type": "string" }
+              }
+            }
+          }
+        ],
+        "responses": { "201": { "description": "Created" } }
+      }
+    },
+    "/api/organizations/{id}": {
+      "get": { "tags": ["Organization"], "summary": "Get organization by ID", "parameters": [{ "name": "id", "in": "path", "required": true, "type": "integer" }], "responses": { "200": { "description": "OK" } } },
+      "put": { "tags": ["Organization"], "summary": "Update an organization", "parameters": [{ "name": "id", "in": "path", "required": true, "type": "integer" }], "responses": { "200": { "description": "OK" } } },
+      "delete": { "tags": ["Organization"], "summary": "Delete an organization", "parameters": [{ "name": "id", "in": "path", "required": true, "type": "integer" }], "responses": { "200": { "description": "OK" } } }
+    },
+    "/api/orgs/{id}/transfer-owner": {
+      "put": {
+        "tags": ["Organization"],
+        "summary": "Transfer organization ownership",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "integer" },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "newOwnerId": { "type": "integer", "example": 2 }
+              }
+            }
+          }
+        ],
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
+    "/api/orgs/{id}/members": {
+      "post": {
+        "tags": ["Organization Members"],
+        "summary": "Assign a user to an organization",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "integer" },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "UserID": { "type": "integer", "example": 2 },
+                "RoleID": { "type": "integer", "example": 1 }
+              }
+            }
+          }
+        ],
+        "responses": { "201": { "description": "Created" } }
+      }
+    },
+    "/api/orgs/{id}/members/{userId}": {
+      "delete": {
+        "tags": ["Organization Members"],
+        "summary": "Remove a user from an organization",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "integer" },
+          { "name": "userId", "in": "path", "required": true, "type": "integer" }
+        ],
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
+    "/api/attachments": {
+      "get": { "tags": ["Attachments"], "summary": "Get all attachments", "responses": { "200": { "description": "OK" } } },
+      "post": { "tags": ["Attachments"], "summary": "Create a new attachment", "responses": { "201": { "description": "Created" } } }
+    },
+    "/api/attachments/{id}": {
+      "get": { "tags": ["Attachments"], "summary": "Get attachment by ID", "parameters": [{ "name": "id", "in": "path", "required": true, "type": "integer" }], "responses": { "200": { "description": "OK" } } },
+      "put": { "tags": ["Attachments"], "summary": "Update attachment", "parameters": [{ "name": "id", "in": "path", "required": true, "type": "integer" }], "responses": { "200": { "description": "OK" } } },
+      "delete": { "tags": ["Attachments"], "summary": "Delete attachment", "parameters": [{ "name": "id", "in": "path", "required": true, "type": "integer" }], "responses": { "200": { "description": "OK" } } }
+    },
+    "/api/activity-history": {
+      "get": { "tags": ["Activity History"], "summary": "Get all activity history records", "responses": { "200": { "description": "OK" } } },
+      "post": { "tags": ["Activity History"], "summary": "Create a new activity record", "responses": { "201": { "description": "Created" } } }
+    },
+    "/api/activity-history/{id}": {
+      "get": { "tags": ["Activity History"], "summary": "Get activity history by ID", "parameters": [{ "name": "id", "in": "path", "required": true, "type": "integer" }], "responses": { "200": { "description": "OK" } } },
+      "put": { "tags": ["Activity History"], "summary": "Update activity history", "parameters": [{ "name": "id", "in": "path", "required": true, "type": "integer" }], "responses": { "200": { "description": "OK" } } },
+      "delete": { "tags": ["Activity History"], "summary": "Delete activity history", "parameters": [{ "name": "id", "in": "path", "required": true, "type": "integer" }], "responses": { "200": { "description": "OK" } } }
+    },
+    "/api/roles": {
+      "get": { "tags": ["Role"], "summary": "Get all roles", "security": [{ "bearerAuth": [] }], "responses": { "200": { "description": "OK" } } },
+      "post": {
+        "tags": ["Role"],
+        "summary": "Create a new role",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "RoleName": { "type": "string", "example": "Admin" },
+                "Description": { "type": "string", "example": "Full system access" }
+              }
+            }
+          }
+        ],
+        "responses": { "201": { "description": "Created" } }
+      }
+    },
+    "/api/permissions": {
+      "get": { "tags": ["Permissions"], "summary": "Get all permissions", "security": [{ "bearerAuth": [] }], "responses": { "200": { "description": "OK" } } },
+      "post": {
+        "tags": ["Permissions"],
+        "summary": "Create a new permission",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "PermissionName": { "type": "string", "example": "CREATE_PROJECT" }
+              }
+            }
+          }
+        ],
+        "responses": { "201": { "description": "Created" } }
+      }
+    }
+  }
+}
