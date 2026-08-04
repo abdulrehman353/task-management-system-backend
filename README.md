@@ -1,144 +1,285 @@
-Task Management Backend System
-A high-performance, scalable RESTful Backend API built with Node.js, Express.js, Sequelize ORM, and MySQL featuring multi-tenant organization handling, fine-grained Role-Based Access Control (RBAC), and interactive Swagger documentation.
+# 🚀 Task Management System API
 
-✨ Core Features
-🔐 JWT Authentication & Secure Route Protection
+A scalable and production-style RESTful backend application built with **Node.js**, **Express.js**, **Sequelize ORM**, and **MySQL**. The system provides secure authentication, organization management, role-based access control, project and task management, interactive API documentation with Swagger, and public access through Cloudflare Tunnel.
 
-👤 User Profile Management
+---
 
-🏢 Multi-Organization Isolation
+# 📖 Overview
 
-👥 Assign / Remove Users from Organizations
+The **Task Management System API** is designed to simulate a real-world backend application where multiple organizations can securely manage users, projects, tasks, and permissions. The project follows a clean layered architecture, making it scalable, maintainable, and easy to extend with additional features.
 
-👑 Transfer Organization Ownership
+---
 
-🛡️ Dynamic Roles & Permissions Creation (System Admin)
+# ✨ Features
 
-📊 Relational Database Architecture (Sequelize Associations)
+## 🔐 Authentication
+- User Signup
+- User Login
+- JWT Authentication
+- Secure Password Hashing using bcrypt
 
-📚 Interactive Swagger API Documentation
+## 🏢 Organization Management
+- Create Organization
+- Update Organization
+- Delete Organization
+- Upload Organization Logo
+- Customize Organization Theme
+- Transfer Organization Ownership
 
-🌐 Cloudflare Tunnel Support
+## 👥 User & Organization Management
+- Assign Users to Organizations
+- Remove Users from Organizations
+- Support Multiple Organizations per User
 
-🛠 Tech Stack
-Technology	Purpose
-Node.js	Backend Runtime
-Express.js	REST API Framework
-Sequelize ORM	Database ORM
-MySQL	Database Engine
-JWT	Authentication Tokens
-bcrypt	Password Hashing
-Swagger	API Documentation
-🏗 Architecture Flow
-Client
-│
-▼
-Routes (Express Router)
-│
-▼
-Middlewares (JWT & RBAC Guards)
-│
-▼
-Controllers (Business Logic)
-│
-▼
-Sequelize ORM (Data Models & Associations)
-│
-▼
-MySQL Database
+## 🛡️ Roles & Permissions
+- Create Roles
+- Create Permissions
+- Assign Permissions to Roles
+- Role-Based Access Control (RBAC)
+- Admin Role Management
 
-📂 Project Structure
-Task-Management-Backend
+## 📂 Project Management
+- Create Projects
+- Update Projects
+- Delete Projects
+
+## ✅ Task Management
+- Create Tasks
+- Update Tasks
+- Delete Tasks
+- Assign Tasks
+- Track Task Status
+
+## 💬 Collaboration
+- Comments
+- Attachments
+- Activity History Tracking
+
+## 📚 API Documentation
+- Swagger UI Integration
+- Interactive API Testing
+
+## ☁️ Deployment
+- Hosted on Local Machine
+- Public Access using Cloudflare Tunnel
+
+---
+
+# 🛠️ Technology Stack
+
+| Technology | Purpose |
+|------------|---------|
+| Node.js | Runtime Environment |
+| Express.js | REST API Framework |
+| Sequelize ORM | Object Relational Mapper (ORM) |
+| MySQL | Relational Database |
+| JWT | Authentication |
+| bcrypt | Password Hashing |
+| Swagger | API Documentation |
+| Cloudflare Tunnel | Public API Access |
+
+---
+
+# 🏗️ Project Architecture
+
+```text
+                Client
+                   │
+                   ▼
+              Express Routes
+                   │
+                   ▼
+              Controllers
+                   │
+                   ▼
+                Services
+                   │
+                   ▼
+             Repositories
+                   │
+                   ▼
+            Sequelize ORM
+                   │
+                   ▼
+             MySQL Database
+```
+
+---
+
+# 📁 Project Structure
+
+```text
+task-management-system
 │
-├── config/
-│   └── database.js
+├── src
+│   ├── config
+│   ├── controllers
+│   ├── middleware
+│   ├── models
+│   ├── repositories
+│   ├── routes
+│   ├── services
+│   ├── validators
+│   ├── utils
+│   └── app.js
 │
-├── controllers/
-│   ├── authController.js
-│   ├── orgController.js
-│   └── roleController.js
-│
-├── middleware/
-│   ├── authMiddleware.js
-│   └── rbacMiddleware.js
-│
-├── models/
-│   ├── User.js
-│   ├── Organization.js
-│   ├── Role.js
-│   └── Permission.js
-│
-├── routes/
-│   ├── authRoutes.js
-│   ├── orgRoutes.js
-│   └── adminRoutes.js
-│
-├── swagger/
-│   └── swaggerConfig.js
-│
+├── uploads
+├── swagger
 ├── server.js
 ├── package.json
+├── README.md
 └── .env
+```
 
-📦 Implemented Modules
-Module	Operational Status
-Authentication System	✅
-User Profile	✅
-Organization Management	✅
-Member Allocation (Assign/Remove)	✅
-Ownership Transfer Protocol	✅
-Roles & Permissions Engine	✅
-Swagger UI Playground	✅
-🔑 Authorization & Headers
-This API utilizes Bearer JSON Web Tokens (JWT) to secure endpoints. Include the token in your headers:
+> **Note:** The folder structure may vary slightly depending on project updates.
 
-Authorization: Bearer YOUR_SECRET_JWT_TOKEN
+---
 
-Password hashing is handled securely using bcrypt before saving records to MySQL.
+# 📦 API Modules
 
-🚀 Getting Started
-1. Clone Repository
-git clone https://github.com/your-username/Task-Management-Backend.git
+| Module | Status |
+|---------|:------:|
+| Authentication | ✅ |
+| Users | ✅ |
+| Organizations | ✅ |
+| Organization Members | ✅ |
+| Organization Ownership Transfer | ✅ |
+| Roles | ✅ |
+| Permissions | ✅ |
+| Projects | ✅ |
+| Tasks | ✅ |
+| Comments | ✅ |
+| Attachments | ✅ |
+| Activity History | ✅ |
+| Swagger Documentation | ✅ |
 
-2. Navigate to Directory
-cd Task-Management-Backend
+---
 
-3. Install Dependencies
+# 🔐 Authentication
+
+All protected endpoints require a valid JWT token.
+
+Example:
+
+```http
+Authorization: Bearer YOUR_ACCESS_TOKEN
+```
+
+Passwords are securely hashed using **bcrypt** before being stored in the database.
+
+---
+
+# 🚀 Getting Started
+
+## 1️⃣ Clone the Repository
+
+```bash
+git clone <repository-url>
+```
+
+## 2️⃣ Navigate to the Project
+
+```bash
+cd task-management-system
+```
+
+## 3️⃣ Install Dependencies
+
+```bash
 npm install
+```
 
-4. Configure Environment Variables
-Create a .env file in the root directory:
+## 4️⃣ Configure Environment Variables
 
+Create a `.env` file in the project root and configure the required variables.
+
+```env
 PORT=5000
+
 DB_HOST=localhost
+DB_PORT=3306
+DB_NAME=your_database
 DB_USER=root
 DB_PASSWORD=your_password
-DB_NAME=task_management_db
+
 JWT_SECRET=your_jwt_secret
+```
 
-5. Start Application
-npm start
+## 5️⃣ Start the Development Server
 
-📖 API Documentation
-Local Swagger Endpoint
+```bash
+npm run dev
+```
+
+or
+
+```bash
+node server.js
+```
+
+---
+
+# 📚 Swagger API Documentation
+
+After running the server, open:
+
+```text
 http://localhost:5000/api-docs
+```
 
-📌 Core System Requirements
-Secure JWT Authentication Pipeline
+Swagger provides interactive documentation where you can test every available API endpoint directly from your browser.
 
-Assign User to Organization(s)
+---
 
-Remove User from Organization
 
-Safe Transfer of Organization Ownership
+# 🔒 Security Features
 
-Admin-Driven Role Creation
+- ✅ JWT Authentication
+- ✅ Password Hashing (bcrypt)
+- ✅ Protected Routes
+- ✅ Role-Based Access Control (RBAC)
+- ✅ Permission-Based Authorization
+- ✅ Input Validation
+- ✅ Centralized Error Handling
 
-Granular Permission Mapping
+---
 
-Sequelize ORM + MySQL Integration
+# ⭐ Project Highlights
 
-Self-Hosted Swagger UI Documentation
+- RESTful API Architecture
+- Layered Architecture (Routes → Controllers → Services → Repositories → Sequelize → MySQL)
+- Secure Authentication & Authorization
+- Multi-Organization Support
+- Organization Logo & Theme Management
+- Role & Permission System
+- Project & Task Management
+- Activity History Tracking
+- Swagger API Documentation
+- Cloudflare Tunnel Deployment
+- Clean and Scalable Code Structure
 
-👨‍💻 Project Overview
-A robust multi-tenant backend architecture designed with Node.js, Express, Sequelize, and MySQL. Provides complete control over authentication, organization structures, ownership shifts, dynamic role creation by admins, and middleware-protected endpoints.
+---
+
+# 🔮 Future Enhancements
+
+- Email Verification
+- Password Reset
+- Notifications
+- Docker Support
+- Unit Testing
+- Integration Testing
+- CI/CD Pipeline
+
+---
+
+# 👨‍💻 Developer
+
+**Rehman Mughal**
+
+Backend Developer
+
+---
+
+# 📌 Project Summary
+
+The **Task Management System API** is a modern backend application built using **Node.js**, **Express.js**, **Sequelize ORM**, and **MySQL**. It provides secure JWT authentication, organization management, user assignment, role-based access control, project and task management, activity tracking, Swagger API documentation, and Cloudflare deployment. The project follows a clean layered architecture to ensure scalability, maintainability, and production-ready development practices.
